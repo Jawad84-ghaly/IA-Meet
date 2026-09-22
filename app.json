@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Réunion IA",
+    "slug": "reunion-ia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.reunionia",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Réunion IA utilise le microphone pour enregistrer et transcrire vos réunions."
+      }
+    },
+    "android": {
+      "package": "com.example.reunionia",
+      "permissions": ["RECORD_AUDIO"]
+    },
+    "plugins": [
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Autoriser Réunion IA à enregistrer l'audio de la réunion."
+        }
+      ]
+    ]
+  }
+}

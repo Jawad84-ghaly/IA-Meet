@@ -1,0 +1,15 @@
+node_modules/
+.expo/
+dist/
+dist-mobile/
+outputs/
+.env
+server/.env
+server/dist/
+npm-debug.log*
+*.log
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
