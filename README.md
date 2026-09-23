@@ -4,7 +4,7 @@ Application mobile Expo/React Native en TypeScript qui enregistre une réunion, 
 
 ## Télécharger l’APK Android
 
-[Télécharger IA-Meet.apk](https://github.com/Jawad84-ghaly/IA-Meet/releases/download/v1.0.0/IA-Meet.apk)
+[Télécharger IA-Meet-v1.0.0.apk](https://github.com/Jawad84-ghaly/IA-Meet/releases/download/v1.0.0/IA-Meet-v1.0.0.apk)
 
 L’APK installe l’interface mobile. Dans la rubrique **Serveur sécurisé** de l’application, saisissez l’URL HTTPS d’un déploiement du proxy `server/`. La clé OpenAI doit rester uniquement sur ce serveur.
 
