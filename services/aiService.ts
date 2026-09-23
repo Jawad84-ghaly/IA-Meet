@@ -1,7 +1,7 @@
 import type { AnalysisResult } from '../types/meeting';
 import { Platform } from 'react-native';
 
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
+let apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
 
 export type AnalysisServiceStatus = {
   ok: boolean;
@@ -10,10 +10,18 @@ export type AnalysisServiceStatus = {
 };
 
 function getApiUrl(path: string) {
-  if (!API_BASE_URL) {
+  if (!apiBaseUrl) {
     throw new Error('EXPO_PUBLIC_API_BASE_URL manque. Consultez le README pour configurer le proxy.');
   }
-  return `${API_BASE_URL}${path}`;
+  return `${apiBaseUrl}${path}`;
+}
+
+export function getConfiguredApiBaseUrl() {
+  return apiBaseUrl ?? '';
+}
+
+export function setApiBaseUrl(value: string) {
+  apiBaseUrl = value.trim().replace(/\/$/, '');
 }
 
 async function readError(response: Response): Promise<string> {

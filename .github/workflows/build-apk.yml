@@ -1,0 +1,77 @@
+name: Construire et publier l'APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "App.tsx"
+      - "app.json"
+      - "components/**"
+      - "hooks/**"
+      - "screens/**"
+      - "services/**"
+      - "types/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/build-apk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    env:
+      CI: "1"
+      # Le proxy devra être déployé en HTTPS pour activer l'analyse hors du réseau local.
+      EXPO_PUBLIC_API_BASE_URL: "https://example.invalid"
+
+    steps:
+      - name: Récupérer le projet
+        uses: actions/checkout@v4
+
+      - name: Installer pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.1
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Installer Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Installer les dépendances
+        run: pnpm install --frozen-lockfile
+
+      - name: Générer le projet Android
+        run: pnpm exec expo prebuild --platform android --clean
+
+      - name: Construire l'APK installable
+        working-directory: android
+        run: ./gradlew :app:assembleRelease --no-daemon
+
+      - name: Préparer le fichier
+        run: cp android/app/build/outputs/apk/release/app-release.apk IA-Meet.apk
+
+      - name: Publier la Release GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: v1.0.0
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" IA-Meet.apk --clobber
+          else
+            gh release create "$RELEASE_TAG" IA-Meet.apk \
+              --target "$GITHUB_SHA" \
+              --title "IA-Meet v1.0.0" \
+              --notes "APK Android installable de Réunion IA. Le serveur sécurisé doit être configuré séparément pour activer la transcription et le résumé."
+          fi

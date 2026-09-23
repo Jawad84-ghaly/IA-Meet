@@ -2,6 +2,12 @@
 
 Application mobile Expo/React Native en TypeScript qui enregistre une réunion, transcrit le français, l’anglais et la darija marocaine, génère un résumé factuel en français avec un tableau Action / Responsable / Délai et le lit à voix haute. Aucun historique n’est conservé.
 
+## Télécharger l’APK Android
+
+[Télécharger IA-Meet.apk](https://github.com/Jawad84-ghaly/IA-Meet/releases/download/v1.0.0/IA-Meet.apk)
+
+L’APK installe l’interface mobile. Dans la rubrique **Serveur sécurisé** de l’application, saisissez l’URL HTTPS d’un déploiement du proxy `server/`. La clé OpenAI doit rester uniquement sur ce serveur.
+
 ## Architecture
 
 ```text
@@ -89,4 +95,4 @@ npm run typecheck
 npm --prefix server run typecheck
 ```
 
-Pour préparer un déploiement réel, remplacez les identifiants `com.example.reunionia`, ajoutez une authentification au proxy et définissez une origine autorisée précise si vous exposez aussi une interface web.
+Pour préparer un déploiement réel, ajoutez une authentification au proxy et définissez une origine autorisée précise si vous exposez aussi une interface web.
