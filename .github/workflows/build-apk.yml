@@ -62,16 +62,22 @@ jobs:
       - name: Préparer le fichier
         run: cp android/app/build/outputs/apk/release/app-release.apk IA-Meet.apk
 
+      - name: Conserver l'APK comme artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: IA-Meet-APK
+          path: IA-Meet.apk
+          if-no-files-found: error
+
       - name: Publier la Release GitHub
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: v1.0.0
         run: |
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" IA-Meet.apk --clobber
-          else
-            gh release create "$RELEASE_TAG" IA-Meet.apk \
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" \
               --target "$GITHUB_SHA" \
               --title "IA-Meet v1.0.0" \
               --notes "APK Android installable de Réunion IA. Le serveur sécurisé doit être configuré séparément pour activer la transcription et le résumé."
           fi
+          gh release upload "$RELEASE_TAG" IA-Meet.apk --clobber
